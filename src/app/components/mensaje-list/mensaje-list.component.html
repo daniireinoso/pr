@@ -1,0 +1,10 @@
+<app-mensaje-add (mensajeAdded)="addMensaje($event)"></app-mensaje-add>
+
+<div class="container">
+  <app-mensaje
+  class="p-1"
+  *ngFor="let mensaje of mensajes"
+  [mensaje]="mensaje"
+  ></app-mensaje>
+</div>
+
