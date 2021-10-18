@@ -1,19 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Mensaje } from 'src/app/model/mensaje';
-import { DataService } from 'src/app/services/data.service';
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-mensaje',
   templateUrl: './mensaje.component.html',
   styleUrls: ['./mensaje.component.css']
 })
-export class MensajeComponent implements OnInit {
+export class MensajeComponent {
 
-  @Input('mensaje') mensaje!: Mensaje;
+  public showForm$ = this.utilsSvc.showAction$
 
-  constructor(public dataService: DataService ) { }
+  constructor(private utilsSvc: UtilsService ) { }
 
-  ngOnInit() {
+  onShowForm(): void {
+    this.utilsSvc.showForm(true);
   }
-
 }

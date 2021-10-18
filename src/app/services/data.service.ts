@@ -1,38 +1,25 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { Mensaje } from '../model/mensaje';
+import { Mensaje } from '@serverAPI/mensaje/interface/mensaje.interface';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 
 export class DataService {
-  listaMsj: Array<Mensaje> = [];
-  aux: Array<Mensaje> = [];
+  private URL_API = '/api/mensaje';
+  constructor (private http: HttpClient){}
 
-  constructor() {
-    this.listaMsj = []
-   }
+  getMensaje(): Observable<Mensaje[]> {
+    return this.http.get<Mensaje[]>(this.URL_API);
+  }
 
-   getMensaje(): Mensaje[]{
-     if(localStorage.getItem('mensajes') === null){
-       this.listaMsj = [];
-     } else {
-       this.listaMsj = JSON.parse(localStorage.getItem('mensajes')!);
-     }
-     return this.listaMsj;
-   }
-
-   addMensaje(mensaje: Mensaje){
-     let revisando = localStorage.getItem('mensajes');
-    if(revisando == null){
-      localStorage.setItem('mensajes', JSON.stringify(mensaje));
-    } else {
-      let data = Object.values(JSON.parse(revisando))
-      console.log(data);
-      let nuevoMsj = Object.values(mensaje);
-      console.log(nuevoMsj);
-      data.push(nuevoMsj);
-      localStorage.setItem('mensajes', JSON.stringify(data))
+  addMensaje(mensaje: Mensaje): Observable<Mensaje>{
+    const mensajeObj = {
+      texto: mensaje.texto,
     }
-    console.log(localStorage.getItem('mensajes'));
-   }
+      return this.http.post<Mensaje>(this.URL_API, mensajeObj);
+  }
 }

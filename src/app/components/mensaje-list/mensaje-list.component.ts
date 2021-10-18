@@ -1,28 +1,29 @@
 import { Component, OnInit } from '@angular/core';
+import { Select, Selector, Store } from '@ngxs/store';
 
-import { Mensaje } from 'src/app/model/mensaje';
-import { DataService } from 'src/app/services/data.service';
+import { Observable } from 'rxjs';
+import { Mensaje } from '@serverAPI/mensaje/interface/mensaje.interface';
+import { MensajeState } from '@store/mensaje.state';
+import { DataService } from '@app/services/data.service';
+import { getMensaje } from '@store/mensaje.actions';
 
 @Component({
   selector: 'app-mensaje-list',
   templateUrl: './mensaje-list.component.html',
   styleUrls: ['./mensaje-list.component.css']
 })
+
 export class MensajeListComponent implements OnInit {
 
-  mensajes!: Mensaje[];
+  @Select(MensajeState.getMensajelist)
+  mensajes$!: Observable<Mensaje[]>;
 
-  constructor(public dataService: DataService) { }
+  constructor(private store: Store) { }
 
-  ngOnInit() {
+  ngOnInit(): void{
 
-    this.mensajes = Object.values(this.dataService.getMensaje());
-    console.log(this.mensajes);
+    this.store.dispatch(new getMensaje());
+
   }
-
-  addMensaje(mensaje: Mensaje){
-    this.dataService.addMensaje(mensaje);
-  }
-
 
 }

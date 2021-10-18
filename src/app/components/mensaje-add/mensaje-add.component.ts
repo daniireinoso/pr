@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-
-import { Mensaje } from '../../model/mensaje';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { addMensaje } from '@store/mensaje.actions';
+import { Mensaje } from '@serverAPI/mensaje/interface/mensaje.interface';
 
 @Component({
   selector: 'app-mensaje-add',
@@ -8,19 +10,29 @@ import { Mensaje } from '../../model/mensaje';
   styleUrls: ['./mensaje-add.component.css']
 })
 export class MensajeAddComponent implements OnInit {
-  texto!: string;
+  public mensajeForm!: FormGroup;
 
-  @Output() mensajeAdded = new EventEmitter<Mensaje>();
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder,
+    private store: Store
+  ) {
+    this.crearForm();
+   }
 
-  ngOnInit(){
+  ngOnInit(): void{
   }
 
-  addMensaje(){
-    this.mensajeAdded.emit({
-      texto: this.texto
+  onSave(mensaje: Mensaje){
+    this.store.dispatch(new addMensaje(mensaje));
+    this.mensajeForm.reset();
+  }
+
+
+  private crearForm(){
+    this.mensajeForm= this.fb.group({
+      texto:[''],
     });
-    //this.texto = '';
   }
+
 }

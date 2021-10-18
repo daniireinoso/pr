@@ -1,28 +1,34 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { MensajeAddComponent } from './components/mensaje-add/mensaje-add.component';
-import { MensajeListComponent } from './components/mensaje-list/mensaje-list.component';
-import { MensajeComponent } from './components/mensaje/mensaje.component';
 
-import { DataService } from './services/data.service';
+import { HttpClientModule } from '@angular/common/http';
+import { StateModule } from '@store/state.module';
+
+import { MensajeComponent } from './components/mensaje/mensaje.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { MensajeListComponent } from './components/mensaje-list/mensaje-list.component';
+import { MensajeAddComponent } from './components/mensaje-add/mensaje-add.component';
+import { MensajeModule } from '@serverAPI/mensaje/mensaje.module';
+import { MensajeSchema } from '@serverAPI/mensaje/schemas/mensaje.schema';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    MensajeAddComponent,
     MensajeListComponent,
-    MensajeComponent
+    MensajeAddComponent,
+    MensajeComponent,
   ],
   imports: [
-    BrowserModule,
-    FormsModule
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
-  providers: [DataService],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,16 +1,16 @@
-<div class="card">
-  <div class="card-header">
-    DEJANOS TU MENSAJE
+<form [formGroup]="mensajeForm" (ngSubmit)="onSave(mensajeForm.value)" novalidate>
+  <input type="hidden" class="form-control" formControlName="texto" />
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Ingrese su mensaje aquí"
+        formControlName="texto"
+      />
+    </div>
   </div>
-  <div class="card-body">
-    <form (submit)="addMensaje()">
-      <div class="form-group">
-        <input type="text" class="form-control" name="texto" [(ngModel)]="texto" >
-        <div class="spacer"></div>
-      </div>
-      <br>
-      <input type="submit" value="Enviar" class="btn btn-outline-info" >
-    </form>
-  </div>
-</div>
-
+  <button type="submit" class="btn btn-primary btn-lg mb-2 btn-block">
+    Enviar
+  </button>
+</form>
